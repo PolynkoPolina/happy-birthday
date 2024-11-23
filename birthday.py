@@ -1,13 +1,15 @@
 import pygame as pg
-import time 
+import random
 import os
+
+pg.init()
 clock = pg.time.Clock()
 
 dp = pg.display.set_mode((800, 800))
 
-
+pr= " "
 words = [
- ["А"," ","в","т","о","р","o","й"," ", "к","у""п","л","е","т","?"],
+ ["А вторoй куплет?"],
  ["Его пока что нет!"],
  ["И вам не повезло: щас будет набор слов"],
  ["Аэробика, четыре гомика"],
@@ -21,23 +23,57 @@ words = [
  ["Валя Стрыкало"]
  ]
 
-xz = []
-xzt = []
-x = 20
-y= 20
-#def wd():
-    #if l == " ":
-       # x = 20
-        #y += 120
-    #else:
-       # pg.draw.rect(dp,(99, 81, 38),l)
+
+directory = os.path.dirname(__file__)
+            
+class Pizda():
+    def __init__(self, x, y):
+        self.x = x
+        self.y= y
+        self.rects = []
+        self.rects_t = []
+    #self.cube = pg.Rect(self.x, self.y, 50, 70)
+
+class Xyu_sosal():
+    def __init__(self, text, pos):
+        self.text = text
+        self.pos = pos
+        self.font_link = directory + "/minecraft.ttf"
+        self.shift = pg.font.Font(self.font_link, 50)
+        self.text_shoft = self.shift.render(self.text, True, (0,0,0))
+
+    def draw(self):
+        dp.blit(self.text_shoft, self.pos)                    
+
+c = Pizda(20,20)
 
 
+for term in words:
+    for word in term:
+        for letter in word:
+            if letter == " ":
+                c.x = 20
+                c.y += 100
+            else:    
+                cube = pg.Rect(c.x, c.y, 50, 70)
+                text = Xyu_sosal(letter, (cube.centerx - 15, cube.centery - 25))
+                c.rects.append(cube)
+                c.rects_t.append(text)
+                c.x += 80
+        c.x = 20
+        c.y += 100
+
+rects_len = len(c.rects)
+
+assert len(c.rects) == len(c.rects_t)
+
+m = (random.randint(0,255), random.randint(0,255), random.randint(0,255))
 game = True
 while game:
+        
 
     dp.fill((209, 191, 148))
-    #for i in range(len(xz)):
+
     
          
     for event in pg.event.get():
@@ -46,17 +82,10 @@ while game:
             
 
 
-    for term in words:
-        for word in term:
-            l = pg.Rect(x,y,50,70)
-            #xz.append(l)
-            if word == " ":
-                x = 20
-                y += 120
-            else:
-                pg.draw.rect(dp,(99, 81, 38),l)
-                x+=80
-            #xzt.append(word)
+    for i in range(rects_len):
+        pg.draw.rect(dp, m, c.rects[i])
+        c.rects_t[i].draw()
+
             
             
           
