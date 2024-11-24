@@ -2,17 +2,20 @@ import pygame as pg
 import random
 import os
 
+
 pg.init()
+pg.mixer.init()
 clock = pg.time.Clock()
 
 dp = pg.display.set_mode((800, 800))
+ 
+bim= [1000,100, 10, 3, 3, 3, 3, 3, 25, 3, 3, 3, 3, 3, 40, 3,3, 15,3,3,3, 10,3,3, 20, 3,3,3]
 
-pr= " "
 words = [
- ["А вторoй куплет?"],
- ["Его пока что нет!"],
- ["И вам не повезло: щас будет набор слов"],
- ["Аэробика, четыре гомика"],
+ ["А вторoй куплет?"], 
+ ["Его пока что нет!"], 
+ ["И вам не повезло: щас будет набор слов"], 
+ ["Аэробика, четыре гомика"], 
  ["Сплю я с пушкою под подушкою"],
  ["Спеют яблочки, светят лампочки"],
  ["Сила трения"], 
@@ -20,19 +23,28 @@ words = [
  ["Будешь рыпаться"],
  ["дам под дыхало"],
  ["Играет и поёт"],
- ["Валя Стрыкало"]
+ ["Валя Стрыкало"],
+ ["Это — песня для девочек"],
+ ["Чтобы девочки плакали."]
  ]
 
-
+count = 0
 directory = os.path.dirname(__file__)
-            
+d = directory + "\Валентин Стрыкало - Песня для девочек.mp3"
+
+
+pg.mixer.music.load(d)
+pg.mixer.music.set_volume(0.01)
+pg.mixer.music.play(start = 83.0)
+
+
 class Pizda():
     def __init__(self, x, y):
         self.x = x
         self.y= y
         self.rects = []
         self.rects_t = []
-    #self.cube = pg.Rect(self.x, self.y, 50, 70)
+
 
 class Xyu_sosal():
     def __init__(self, text, pos):
@@ -67,8 +79,13 @@ rects_len = len(c.rects)
 
 assert len(c.rects) == len(c.rects_t)
 
+dum = 0
 m = (random.randint(0,255), random.randint(0,255), random.randint(0,255))
 game = True
+
+
+
+
 while game:
         
 
@@ -79,14 +96,14 @@ while game:
     for event in pg.event.get():
         if event.type == pg.QUIT:
             game = False
-            
-
-
-    for i in range(rects_len):
+  
+   
+    for i in range(min(count // bim[dum], rects_len)):
         pg.draw.rect(dp, m, c.rects[i])
         c.rects_t[i].draw()
-
-            
+    count += 1
+    if count % 10 == 0:
+        dum = 1
             
           
                 
